@@ -34,14 +34,6 @@ class BuildFileFinder:
 
         self.file_extension = lowered_extension
 
-    def _set_output_directory(self) -> None:
-        if "OUTPUT_DIRECTORY" in os.environ:
-            self._output_directory = Path(os.environ["OUTPUT_DIRECTORY"])
-            self._log(f"OUTPUT_DIRECTORY environment variable found: {BuildFileFinder._get_pretty_path_string(self._output_directory)}")
-        else:
-            self._output_directory = Path("./")
-            self._log(f"OUTPUT_DIRECTORY environment variable not set! Using {BuildFileFinder._get_pretty_path_string(self._output_directory)}")
-
     def _find_and_set_file(self) -> None:
         self.file_path = self._find_file()
         if self.file_path is None:
@@ -69,10 +61,10 @@ class BuildFileFinder:
             return None
         
         output_directory = Path(os.environ["OUTPUT_DIRECTORY"])
-        self._log(f"$OUTPUT_DIRECTORY environment variable found: {BuildFileFinder._get_pretty_path_string(self._output_directory)}")
+        self._log(f"$OUTPUT_DIRECTORY environment variable found: {BuildFileFinder._get_pretty_path_string(output_directory)}")
 
         if not output_directory.exists():
-            self._log(f"$OUTPUT_DIRECTORY ({BuildFileFinder._get_pretty_path_string(self._output_directory)}) doesn't exist!")
+            self._log(f"$OUTPUT_DIRECTORY ({BuildFileFinder._get_pretty_path_string(output_directory)}) doesn't exist!")
             return None
         
         return self._choose_file(list(self._search_path(output_directory)))
