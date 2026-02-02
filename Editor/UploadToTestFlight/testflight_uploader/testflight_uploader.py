@@ -1,90 +1,48 @@
 from .command_utility import *
 from .upload_configuration import UploadConfiguration
+from CommandUtility.command import Command
+from pretty_print import *
 
 
 class TestflightUploader:
     verbose: bool
     last_altool_output = []
     configuration: UploadConfiguration
+    command: Command
 
-    def __init__(self, configuration: UploadConfiguration, verbose=False) -> None:
-        self.verbose = verbose
+    _print_prefix: str = "[TestFlightUploader]"
+
+    def __init__(self, configuration: UploadConfiguration) -> None:
         self.configuration = configuration
+        self._create_command()
+
+    def _create_command(self):
+        self.command = Command()
+        self.command.executable = "fastlane"
+        self.command.subcommands = ["pilot", "upload"]
+        self.command.add_flag_and_value("--ipa", str(self.configuration.ipa_path))
+        self.command.add_flag_and_value("--api-key-path", str(self.configuration.app_store_key_path))
+        self.command.add_flag_and_value("--changelog", f"\"{self._read_changelog()}\"")
+        if self.configuration.test_groups:
+            self.command.add_flag_and_value("--groups", self.configuration.test_groups)
+        self.command.add_flag("--verbose")
 
     def upload(self):
-        self._log("TestFlightUploader started...")
-        self._log(self.configuration)
-        self._log(pretty_command(self._get_upload_command()))
+        pretty_print(f"{self._print_prefix} running following command\n{self.command.to_str(newlines=True)}")
 
         for attempt_number in range(self.configuration.max_upload_attempts):
-            self._log(f"Upload attempt {attempt_number + 1} of {self.configuration.max_upload_attempts}")
-            success = self._try_upload()
-            if success:
-                return 0
 
-        self._log("Out of upload attempts!")
+            pretty_print(f"Upload attempt {attempt_number + 1} of {self.configuration.max_upload_attempts}")
+            command_output = self._try_upload_iteration()
+            pretty_print(f"{self._print_prefix} have not yet written CommandOutput parser", color=ERROR)
+
+        pretty_print(f"{self._print_prefix} Out of upload attempts!", color=ERROR)
         return 1
             
-    def _try_upload(self) -> bool:
-        upload_command = self._get_upload_command()
-        self.last_altool_output = []
-
-        runner = CommandRunner(upload_command)
-        runner.verbose = self.verbose
-        runner.stdout_parser = lambda line: self._capture_command_output(line)
-        runner.execute() 
-    
-        success = runner.output.success()
-
-        if success:
-            self._log("Upload succeeded!", "#00FF00")
-        else:
-            self._log(f"Upload failure: \"{runner.output.reason}\", return code={runner.output.return_code}", "#FF0000")
-        
-        return success
-
-    def _get_upload_command(self) -> list:
-        command = ["fastlane", "pilot", "upload"]
-        command += ["-i", str(self.configuration.ipa_path)]
-        command += ["--api_key_path", str(self.configuration.app_store_key_path)]
-        command += ["--changelog", self._read_changelog()]
-
-        if self.configuration.test_groups:
-            if self.configuration.test_groups.strip() != "":
-                command += ["--groups", self.configuration.test_groups]
-
-        command += ["--verbose"]
-        return command
+    def _try_upload_iteration(self) -> CommandOutput:
+        pretty_print(f"{self._print_prefix} have not yet written _typ_upload_iteration", color=ERROR)
+        return CommandOutput()
 
     def _read_changelog(self) -> str:
         with open(self.configuration.changelog_path, "r") as file:
             return file.read()
-
-    def _capture_command_output(self, line: str):
-        if "[altool]" in line:
-            self.last_altool_output.append(line)
-            return
-
-        if len(self.last_altool_output) == 0:
-            return
-
-        if line.strip() == "":
-            return
-
-        # TODO check for error in altool
-
-        return
-
-    def _log(self, text, color_hex=None) -> None:
-        RESET = "\033[0m"
-        prefix = "[TestFlightUploader]"
-        if self.verbose:
-            color = TestflightUploader.hex_to_ansi(color_hex) if color_hex else ""
-            print(f"{prefix} {color}{text}{RESET if color else ''}")
-
-    @staticmethod
-    def hex_to_ansi(hex_color: str) -> str:
-        """Convert hex color (#RRGGBB) to ANSI escape sequence."""
-        hex_color = hex_color.lstrip("#")
-        r, g, b = int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
-        return f"\033[38;2;{r};{g};{b}m"  # 24-bit foreground color

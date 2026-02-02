@@ -9,6 +9,9 @@ import argparse
 from pathlib import Path
 from typing import Iterator
 from env_accessor import *
+# TODO find better solution to this
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pretty_print import *
 
 class BuildFileFinder:
