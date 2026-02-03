@@ -18,6 +18,7 @@ class UploadConfiguration:
     # from env
     test_groups: Optional[str]
     max_upload_attempts: int
+    timeout_per_attempt_seconds: int
     # derived
     changelog_path: Path
     ipa_path: Path
@@ -25,6 +26,7 @@ class UploadConfiguration:
 
     # defaults
     _max_upload_attempts_fallback = 10
+    _max_timeout_per_attempt_seconds = 10
 
     # non config
     _print_header = "[UploadConfiguration]"
@@ -39,6 +41,7 @@ class UploadConfiguration:
     def _populate(self):
         self.test_groups = TEST_GROUPS
         self.max_upload_attempts = MAX_UPLOAD_ATTEMPTS
+        self.timeout_per_attempt_seconds = TIMEOUT_PER_ATTEMPT
 
         self.ipa_path = find_build_file_path(".ipa")
 
@@ -48,7 +51,10 @@ class UploadConfiguration:
     def _try_repair(self) -> None:
         """ Tries to fix invalid configuration values."""
         if self.max_upload_attempts <= 0:
-            pretty_print(f"{self._print_header} Invalid max_upload_attempts value! Found {self.max_upload_attempts}, falling back to {self._max_upload_attempts_fallback}", color=WARNING)
+            pretty_print(f"{self._print_header} Invalid MAX_UPLOAD_ATTEMPTS value! Found {self.max_upload_attempts}, falling back to {self._max_upload_attempts_fallback}", color=WARNING)
+            self.max_upload_attempts = self._max_upload_attempts_fallback
+        if self._max_timeout_per_attempt_seconds <= 0:
+            pretty_print(f"{self._print_header} Invalid TIMEROUT_PER_ATTEMPT value! Found {self.timeout_per_attempt_seconds}, falling back to {self._max_timeout_per_attempt_seconds}", color=WARNING)
             self.max_upload_attempts = self._max_upload_attempts_fallback
 
     def verify(self) -> None:
@@ -87,7 +93,7 @@ class UploadConfiguration:
 
         result = "{\n"
 
-        for item in ["ipa_path", "changelog_path", "app_store_key_path", "max_upload_attempts", "test_groups"]:
+        for item in ["ipa_path", "changelog_path", "app_store_key_path", "max_upload_attempts", "timeout_per_attempt_seconds", "test_groups"]:
             if item == "":
                 result += "\n"
                 continue

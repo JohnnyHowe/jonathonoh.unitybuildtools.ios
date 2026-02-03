@@ -1,0 +1,1 @@
+python3 Editor/UploadToTestFlight/upload_to_testflight.py

@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Iterable
 
 # TODO find better solution to this
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -16,7 +17,7 @@ class Command:
         """ Flag should include "-" prefix. """
         if not flag.startswith("-"):
             pretty_print(f"[CommandUtility] Flag added without \"-\" prefix ({flag}). Did you mean to do this?")
-        self.flags.append(f"{flag} {value}")
+        self.flags.append((flag, value))
 
     def add_flag(self, flag: str) -> None:
         """ Flag should include "-" prefix. """
@@ -24,8 +25,15 @@ class Command:
             pretty_print(f"[CommandUtility] Flag added without \"-\" prefix ({flag}). Did you mean to do this?")
         self.flags.append(flag)
 
-    def get_as_list(self) -> list:
-        return [self.executable] + self.subcommands + self.positional_args + self.flags
+    def as_list(self) -> list:
+        return [self.executable] + self.subcommands + self.positional_args + list(self._get_flags_unpacked()) 
+
+    def _get_flags_unpacked(self) -> Iterable:
+        for part in self.flags:
+            if isinstance(part, tuple):
+                yield from part
+            else:
+                yield part
 
     def __str__(self) -> str:
         sub_commands_str = " ".join(self.subcommands)
@@ -45,6 +53,9 @@ class Command:
         for part in self.positional_args + self.flags:
             if newlines:
                 result += " \\ \n  "
-            result += part
+            if isinstance(part, tuple):
+                result += f"{part[0]} {part[1]}"
+            else:
+                result += part
 
         return result.strip()
