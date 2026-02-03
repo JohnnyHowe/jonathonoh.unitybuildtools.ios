@@ -8,6 +8,7 @@ Of course it is simple to run locally or in some other build system.
 Please ignore all the TODOS. I will get there soon I promise xo
 
 TODO:
+* Add license to project and files
 * allow env to be overridden by command line args
 * Auto increase build number
 * figure out how python modules/packages/paths work\
