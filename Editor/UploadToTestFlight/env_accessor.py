@@ -14,7 +14,7 @@ from pretty_print import *
 
 # region Vars 
 APP_STORE_CONNECT_API_KEY_ISSUER_ID: str
-APP_STORE_CONNECT_API_KEY_KEY_ID: str
+APP_STORE_CONNECT_API_KEY_ID: str
 APP_STORE_CONNECT_API_KEY_CONTENT: str
 OUTPUT_DIRECTORY: Path
 GROUPS: Optional[str]
@@ -26,7 +26,7 @@ TIMEOUT_PER_ATTEMPT: int
 # Defaults: type: string, required: True, sensitive: True
 _ALL_VARIABLES = {
     "APP_STORE_CONNECT_API_KEY_ISSUER_ID": {},
-    "APP_STORE_CONNECT_API_KEY_KEY_ID": {},
+    "APP_STORE_CONNECT_API_KEY_ID": {},
     "APP_STORE_CONNECT_API_KEY_CONTENT": {},
     "GROUPS": {"required": False, "sensitive": False, "default": None},
     "OUTPUT_DIRECTORY": {"type": Path, "sensitive": False},

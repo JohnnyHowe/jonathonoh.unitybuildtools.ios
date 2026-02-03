@@ -1,7 +1,7 @@
 """
 Creates [cwd]/AppStoreConnectKey.json from environment variables in the format (without newlines):
 {
-    "key_id": $APP_STORE_CONNECT_API_KEY_KEY_ID,
+    "key_id": $APP_STORE_CONNECT_API_KEY_ID,
     "issuer_id": $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
     "key": $APP_STORE_CONNECT_API_KEY_ALL_CONTENT
 }
@@ -21,7 +21,7 @@ def create_api_key_file(file_path: Path = Path("AppStoreConnectAPIKey.json")) ->
 
 def _get_data() -> dict:
     return {
-        "key_id": APP_STORE_CONNECT_API_KEY_KEY_ID,
+        "key_id": APP_STORE_CONNECT_API_KEY_ID,
         "issuer_id": APP_STORE_CONNECT_API_KEY_ISSUER_ID,
         "key": APP_STORE_CONNECT_API_KEY_CONTENT
     }
