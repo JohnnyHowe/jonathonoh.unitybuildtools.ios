@@ -54,7 +54,7 @@ The following variables all relate to your App Store Connect API Key.\
 |-|-|-|-|-|
 | `APP_STORE_CONNECT_API_KEY_ISSUER_ID` | `string` | Yes | - | Identifies the issuer who created the authentication token.<br>Look for "*Issuer ID*" on [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
 | `APP_STORE_CONNECT_API_KEY_ID` | `string` | Yes | - | Look for "*Key ID*" on your key in [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
-| `APP_STORE_CONNECT_API_KEY_ALL_CONTENT` | `string` | Yes | - | The raw text contents of your API key.<br>Downloaded from [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
+| `APP_STORE_CONNECT_API_KEY_CONTENT` | `string` | Yes | - | The raw text contents of your API key.<br>Downloaded from [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
 
 Other
 
