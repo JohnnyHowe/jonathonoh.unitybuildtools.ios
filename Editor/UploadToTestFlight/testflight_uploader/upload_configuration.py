@@ -93,7 +93,7 @@ class UploadConfiguration:
 
         result = "{\n"
 
-        for item in ["ipa_path", "changelog_path", "app_store_key_path", "max_upload_attempts", "timeout_per_attempt_seconds", "GROUPS"]:
+        for item in ["ipa_path", "changelog_path", "app_store_key_path", "max_upload_attempts", "timeout_per_attempt_seconds", "groups"]:
             if item == "":
                 result += "\n"
                 continue
