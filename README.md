@@ -30,12 +30,15 @@ $ bash upload_to_testflight.sh
 ```
 
 # Variables
+These can be passed either as command line arguments or as environment variables.\
+CLI arguments override environment variables if both exist.
+
 | CLI Name | ENV Name | Type | Required (Default) | Description |
 |-|-|-|-|-|
 | `--api-key-issuer-id` | `API_KEY_ISSUER_ID` | `string` | ✅ | Identifies the issuer who created the authentication token.<br>Look for "*Issuer ID*" on [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
 | `--api-key-id`| `API_KEY_ID` | `string` | ✅ | Look for "*Key ID*" on your key in [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
 | `--api-key-content`| `API_KEY_CONTENT` | `string` | ✅ |  The raw text contents of your API key.<br>Downloaded from [the page you made the API key on](https://appstoreconnect.apple.com/access/integrations/api).
-| `--output-directory`| `OUTPUT_DIRECTORY`| `path`/`string` | ✅ | The folder containing the output file.<br>(Unity Cloud Build automatically sets this)
+| `--output-directory`| `OUTPUT_DIRECTORY`| `path`/`string` | ✅ | The folder containing the output file.<br>**(Unity Cloud Build automatically sets this)**
 | `--groups`| `GROUPS` | `string` | ❌ | Who the build is sent to. Even when empty, it is still available to internal testers.<br>See Fastlane `groups` parameter: https://docs.fastlane.tools/actions/upload_to_testflight/#parameters
 | `--max-upload-attempts`| `MAX_UPLOAD_ATTEMPTS` | `int` | ❌ (10) | Maximum times to retry the upload.<br>(Occasionally fastlane fails for no reason. The only way around is to retry. If you're curious check this out: https://github.com/fastlane/fastlane/issues/21535)
 | `--attempt-timeout` | `ATTEMPT_TIMEOUT` | `float` | ❌ (300) | Max time each individual upload attempt can run for **in seconds** (so default is 5 minutes).
