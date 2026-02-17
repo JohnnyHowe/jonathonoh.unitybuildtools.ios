@@ -5,14 +5,9 @@ Made for Unity Cloud Build .ipa and .aab files.
 Executable path is OUTPUT_DIRECTORY/executable_name.type for UCB.
 PS. UCB does expose the full path but it's in an API that I can't be bothered touching (https://build-api.cloud.unity3d.com/docs).
 """
-import argparse
 import os
 from pathlib import Path
 from typing import Iterator
-# TODO find better solution to this
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from python_pretty_print import *
 
 class BuildFileFinder:
     file_extension: str
@@ -50,9 +45,7 @@ class BuildFileFinder:
         """
         if not self._output_directory.exists():
             text = f"$OUTPUT_DIRECTORY ({self._output_directory.resolve()}) doesn't exist!"
-            pretty_print(f"<error>{text}</error>")
             raise FileNotFoundError(text)
-            return None
         return self._choose_file(list(self._search_path(self._output_directory)))
 
     def _search_path(self, root: Path, recursive=False) -> Iterator:
@@ -69,26 +62,17 @@ class BuildFileFinder:
 
     def _choose_file(self, paths: list):
         if len(paths) == 0:
-            self._log(f"Found 0 {self.file_extension} files")
-            return None
+            raise FileNotFoundError(f"Could not find any {self.file_extension} files in {str(self._output_directory.resolve())}")
 
         if len(paths) == 1:
-            self._log(f"Found 1 {self.file_extension} file: {paths[0]}")
             return paths[0]
 
-        self._log(f"Found {len(paths)} {self.file_extension} files:")
+        print(f"Found {len(paths)} {self.file_extension} files:")
         for file_path in paths:
-            self._log(f"  - {file_path}")
+            print(f"  - {file_path}")
 
-        self._log("TODO: choose smarter. Taking first...")
+        print("TODO: Write a smarter searcher. Taking first...")
         return paths[0]
-
-    def _log(self, text: str):
-        pretty_print(BuildFileFinder._get_log_text(text))
-
-    @staticmethod
-    def _get_log_text(text: str) -> str:
-        return "[BuildFileFinder] " + text
 
 
 def find_build_file_path(output_directory: Path, extension: str) -> Path:
