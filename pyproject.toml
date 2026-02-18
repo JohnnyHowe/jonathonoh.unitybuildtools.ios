@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ucb-to-testflight"
+version = "0.1.0"
+description = "Upload iOS .ipa builds to TestFlight."
+requires-python = ">=3.10"
+dependencies = [
+    "python-command-line-helpers @ git+https://github.com/JohnnyHowe/python-command-line-helpers.git@42473fc316291bb4acb1688b561ed240d888acb6",
+    "python-command-runner @ git+https://github.com/JohnnyHowe/python-command-runner.git@3f60c7e49fd667656901a74e9acb8390996ade46",
+    "python-pretty-print @ git+https://github.com/JohnnyHowe/python-pretty-print.git@715b27abc651dbd18cc77f789ea2d4b1f996a10c",
+]
+
+[tool.setuptools]
+py-modules = [
+    "api_key",
+    "build_file_finder",
+    "fastlane_pilot_output_log_error_checker",
+    "overwrite_then_delete",
+    "upload_attempt",
+    "upload_parameters",
+    "upload_to_test_flight",
+    "upload_to_testflight_cmd_entry",
+]
+
+[tool.setuptools.package-dir]
+"" = "src"

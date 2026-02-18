@@ -14,6 +14,7 @@ This package is built with Unity Cloud Build in mind so it works smoothly there,
 # Requirements
 * Python 3
 * git
+* fastlane (`pilot`)
 
 # Quick Start
 1. Create API key ([See: Creating Your API Key](#creating-your-api-key))
@@ -21,6 +22,17 @@ This package is built with Unity Cloud Build in mind so it works smoothly there,
 3. Run uploader
 ```bash
 bash upload_to_testflight.sh
+```
+`upload_to_testflight.sh` installs dependencies from `pyproject.toml` (including pinned git refs) and then runs the uploader.
+
+# Dependency Policy
+Python dependencies must not be added as git submodules in this repository.
+
+Use pinned git refs in `pyproject.toml` instead.
+
+Run this check locally or in CI:
+```bash
+bash tools/check_no_submodules.sh
 ```
 
 # Variables

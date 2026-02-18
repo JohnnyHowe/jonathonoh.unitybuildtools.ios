@@ -4,3 +4,8 @@
 .vscode/
 scratchpad/
 .env
+
+*.meta
+*.pyc
+
+planning/
