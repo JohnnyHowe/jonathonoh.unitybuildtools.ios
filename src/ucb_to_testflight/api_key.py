@@ -1,7 +1,7 @@
 import atexit
 import json
 from pathlib import Path
-from overwrite_then_delete import overwrite_then_delete as delete_file
+from .overwrite_then_delete import overwrite_then_delete as delete_file
 
 
 class APIKey:

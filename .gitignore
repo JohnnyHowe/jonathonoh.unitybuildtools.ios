@@ -9,3 +9,5 @@ scratchpad/
 *.pyc
 
 planning/
+
+__pycache__

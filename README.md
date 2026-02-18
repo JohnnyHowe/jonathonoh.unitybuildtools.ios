@@ -8,13 +8,28 @@ This package is built with Unity Cloud Build in mind so it works smoothly there,
 * auto increase build number
 * extract project out to a more generic uploader (this one will contain UCB things: .ipa finder)
 * figure out why no fastlane logs (wait, did it succeed quietly??)
-* install instructions
 * some way of reading changelog from file
 
 # Requirements
 * Python 3
 * git
 * fastlane (`pilot`)
+
+# Install
+## Install from GitHub
+```bash
+pip install "ucb-to-testflight @ git+https://github.com/OWNER/REPO.git"
+```
+
+## Session-only install (venv)
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install "ucb-to-testflight @ git+https://github.com/OWNER/REPO.git"
+
+bash upload_to_testflight.sh
+deactivate
+```
 
 # Quick Start
 1. Create API key ([See: Creating Your API Key](#creating-your-api-key))

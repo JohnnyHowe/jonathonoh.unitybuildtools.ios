@@ -1,4 +1,4 @@
-from fastlane_pilot_output_log_error_checker import get_errors, print_errors
+from .fastlane_pilot_output_log_error_checker import get_errors, print_errors
 from python_pretty_print import pretty_print
 from python_command_runner import *
 

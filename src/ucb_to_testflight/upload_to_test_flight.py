@@ -1,10 +1,10 @@
 from pathlib import Path
-from build_file_finder import BuildFileFinder
-from api_key import *
+from .build_file_finder import BuildFileFinder
+from .api_key import APIKey
 from python_command_line_helpers import command_building
 from python_pretty_print import pretty_print
 from python_command_runner import *
-from upload_attempt import run_attempt
+from .upload_attempt import run_attempt
 
 
 def upload_to_testflight(
@@ -46,4 +46,3 @@ def _build_command(
 
 	command_building.resolve_paths(command)
 	return command
-

@@ -14,16 +14,8 @@ dependencies = [
 ]
 
 [tool.setuptools]
-py-modules = [
-    "api_key",
-    "build_file_finder",
-    "fastlane_pilot_output_log_error_checker",
-    "overwrite_then_delete",
-    "upload_attempt",
-    "upload_parameters",
-    "upload_to_test_flight",
-    "upload_to_testflight_cmd_entry",
-]
+package-dir = {"" = "src"}
 
-[tool.setuptools.package-dir]
-"" = "src"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ucb_to_testflight*"]
