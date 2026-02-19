@@ -31,7 +31,7 @@ class UploadParameters:
     api_key_content: str
     output_directory: Path
     groups: list[str] = []
-    changelog: str
+    changelog_path: Path
     max_upload_attempts: int = 10
     attempt_timeout: int = 600  # seconds
 
@@ -42,7 +42,7 @@ class UploadParameters:
         "api_key_id",
         "api_key_content",
         "output_directory",
-        "changelog",
+        "changelog_path",
         "groups",
         "max_upload_attempts",
         "attempt_timeout",
