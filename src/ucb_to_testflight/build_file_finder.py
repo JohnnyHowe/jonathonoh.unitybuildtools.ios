@@ -23,7 +23,7 @@ class BuildFileFinder:
         """ Set self.file_extension as a lowercase version of file_extension and add "." prefix if required. """
         self.file_extension = file_extension.lower()
         if not self.file_extension.startswith("."):
-            self.file_extension = "." + file_extension
+            self.file_extension = "." + self.file_extension
 
     def _find_and_set_file(self) -> None:
         self.file_path = self._find_file()
