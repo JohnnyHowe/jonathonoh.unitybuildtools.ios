@@ -8,9 +8,8 @@ version = "0.1.0"
 description = "Upload iOS .ipa builds to TestFlight."
 requires-python = ">=3.10"
 dependencies = [
-    "python-pretty-print @ git+https://github.com/JohnnyHowe/python-pretty-print.git",
-    "python-command-line-helpers @ git+https://github.com/JohnnyHowe/python-command-line-helpers.git",
-    "python-command-runner @ git+https://github.com/JohnnyHowe/python-command-runner.git",
+    "pyliot @ git+https://github.com/JohnnyHowe/pyliot.git",
+    "python-command-line-helpers @ git+https://github.com/JohnnyHowe/python-command-line-helpers.git"
 ]
 
 [tool.setuptools]

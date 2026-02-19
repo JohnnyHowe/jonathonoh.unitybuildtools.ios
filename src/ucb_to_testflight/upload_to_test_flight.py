@@ -1,10 +1,14 @@
+"""UCB adapter that delegates TestFlight upload execution to pyliot."""
+
+import sys
 from pathlib import Path
+from importlib import import_module
+
 from .build_file_finder import BuildFileFinder
-from .api_key import APIKey
-from python_command_line_helpers import command_building
-from python_pretty_print import pretty_print
-from python_command_runner import *
-from .upload_attempt import run_attempt
+
+# pyliot currently imports `overwrite_then_delete` as a top-level module name.
+sys.modules.setdefault("overwrite_then_delete", import_module("python_command_line_helpers.overwrite_then_delete"))
+from pyliot.upload_to_test_flight import upload_to_testflight as pyliot_upload_to_testflight
 
 
 def upload_to_testflight(
@@ -18,31 +22,13 @@ def upload_to_testflight(
 	attempt_timeout_seconds: int = 600,
 ):
 	ipa_path = BuildFileFinder(output_directory, ".ipa").file_path
-	api_key = APIKey(api_key_issuer_id, api_key_id, api_key_content)
-
-	command = _build_command(ipa_path, api_key.file_path, changelog, groups)
-
-	for i in range(max_upload_attempts):
-		try:
-			run_attempt(command, attempt_timeout_seconds)
-			break
-		except:
-			pretty_print(f"<warning>Failed upload attempt {i + 1} / {max_upload_attempts}</warning>")
-
-
-def _build_command(
-	ipa_path: Path,
-	api_key_path: Path,
-	changelog: str,
-	groups: list[str],
-) -> list[str]:
-	command = ["fastlane", "pilot", "upload", "--verbose"]
-	command += ["-i", ipa_path]
-	command += ["--api-key-path", api_key_path]
-	command += ["--changelog", changelog]
-
-	if len(groups) > 0:
-		command += ["--groups", ",".join(groups)]
-
-	command_building.resolve_paths(command)
-	return command
+	pyliot_upload_to_testflight(
+		api_key_issuer_id=api_key_issuer_id,
+		api_key_id=api_key_id,
+		api_key_content=api_key_content,
+		ipa_path=ipa_path,
+		changelog=changelog,
+		groups=groups,
+		max_upload_attempts=max_upload_attempts,
+		attempt_timeout_seconds=attempt_timeout_seconds,
+	)
