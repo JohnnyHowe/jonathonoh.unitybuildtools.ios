@@ -10,5 +10,6 @@ if [[ ! -x "$VENV_PYTHON" ]]; then
 fi
 
 "$VENV_PYTHON" -m pip install --upgrade pip
+"$VENV_PYTHON" -m pip install --upgrade setuptools wheel
 "$VENV_PYTHON" -m pip install --no-build-isolation -e "$SCRIPT_DIR"
 "$VENV_PYTHON" -m ucb_to_testflight.upload_to_testflight_cmd_entry "$@"
