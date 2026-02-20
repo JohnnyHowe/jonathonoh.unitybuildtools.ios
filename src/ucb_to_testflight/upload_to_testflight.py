@@ -14,6 +14,7 @@ def upload_to_testflight(
 	groups: list[str] = [],
 	max_upload_attempts: int = 10,
 	attempt_timeout_seconds: int = 600,
+	show_fastlane_logs: bool = False
 ):
 	ipa_path = BuildFileFinder(output_directory, ".ipa").file_path
 
@@ -29,4 +30,5 @@ def upload_to_testflight(
 		groups=groups,
 		max_upload_attempts=max_upload_attempts,
 		attempt_timeout_seconds=attempt_timeout_seconds,
+		show_fastlane_logs=show_fastlane_logs
 	)
