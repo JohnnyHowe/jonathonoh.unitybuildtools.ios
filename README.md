@@ -14,12 +14,12 @@ This package is built with Unity Cloud Build in mind so it works smoothly there,
 1. Create API key ([See: Creating Your API Key](#creating-your-api-key))
 2. Put this package somewhere in your project.
 3. Set environment variables in UCB (See: [passing variables](#passing-variables) and [variables docs](#variables))
-3. Add `upload_to_testflight.sh` as a post build script in UCB.
+3. Add `upload-to-testflight.sh` as a post build script in UCB.
 
 # Running Locally
 Similar to above, but:
 * You have to run archive in xcode to create the `.ipa` file (UCB does this for you).
-* You have to call the `upload_to_testflight.sh` script yourself after archiving.
+* You have to call the `upload-to-testflight.sh` script yourself after archiving.
 * Variables are passed environment variables. (See below)
 
 Put envionment variables in a `.env` file at project root.
